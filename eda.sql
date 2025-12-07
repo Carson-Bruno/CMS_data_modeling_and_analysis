@@ -13,14 +13,29 @@ WHERE desynpuf_id IS NULL OR clm_id IS NULL OR segment IS NULL;
 
 --------------
 --check that icd9 codes are valid 
-SELECT 
+--checks that length between 3 and 5 and only alphanumeric
+WITH inpatient_icd_codes AS (
+SELECT desynpuf_id,clm_id,segment,x.*
+FROM inpatient_claims, jsonb_each_text(to_jsonb(inpatient_claims)) AS x(colname,colval)
+WHERE x.colname ~ '^.*icd9.*$')
+SELECT * FROM inpatient_icd_codes
+WHERE
+LENGTH(colval) > 5 OR LENGTH(colval) < 3 OR colval ~ '[^a-zA-Z0-9]';
 
-
-
-
-SELECT * FROM inpatient_claims
---WHERE clm_id= '196661176988405'
+--carrier_claims--
+SELECT * FROM carrier_claims
 LIMIT 10;
+
+SELECT desynpuf_id,clm_id, COUNT(*)
+FROM carrier_claims
+GROUP BY desynpuf_id,clm_id
+HAVING COUNT(*)>1 ;
+
+SELECT desynpuf_id,clm_id
+FROM carrier_claims
+WHERE desynpuf_id IS NULL OR clm_id IS NULL;
+
+
 
 SELECT * FROM beneficiaries
 limit 10;
