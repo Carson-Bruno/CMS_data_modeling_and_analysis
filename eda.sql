@@ -26,6 +26,7 @@ LENGTH(colval) > 5 OR LENGTH(colval) < 3 OR colval ~ '[^a-zA-Z0-9]';
 SELECT * FROM carrier_claims
 LIMIT 10;
 
+--desynpuf, clm_id PK, check for repeats/nulls
 SELECT desynpuf_id,clm_id, COUNT(*)
 FROM carrier_claims
 GROUP BY desynpuf_id,clm_id
@@ -33,7 +34,62 @@ HAVING COUNT(*)>1 ;
 
 SELECT desynpuf_id,clm_id
 FROM carrier_claims
-WHERE desynpuf_id IS NULL OR clm_id IS NULL;
+WHERE desynpuf_id IS NULL or clm_id IS NULL;
+
+--check that icd9 codes are valid 
+--checks that length between 3 and 5 and only alphanumeric
+-- a more thorough analysis would check exact icd9 codes against those reported
+
+WITH carrier_icd_codes AS(
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_1' AS icd_code, icd9_dgns_cd_1 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_2' AS icd_code, icd9_dgns_cd_2 AS code_value FROM carrier_claims
+    UNION ALL	
+	SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_3' AS icd_code, icd9_dgns_cd_3 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_4' AS icd_code, icd9_dgns_cd_4 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_5' AS icd_code, icd9_dgns_cd_5 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_6' AS icd_code, icd9_dgns_cd_6 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_7' AS icd_code, icd9_dgns_cd_7 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'icd9_dgns_cd_8' AS icd_code, icd9_dgns_cd_8 AS code_value FROM carrier_claims
+	UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_1' AS icd_code, line_icd9_dgns_cd_1 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_2' AS icd_code, line_icd9_dgns_cd_2 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_3' AS icd_code, line_icd9_dgns_cd_3 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_4' AS icd_code, line_icd9_dgns_cd_4 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_5' AS icd_code, line_icd9_dgns_cd_5 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_6' AS icd_code, line_icd9_dgns_cd_6 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_7' AS icd_code, line_icd9_dgns_cd_7 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_8' AS icd_code, line_icd9_dgns_cd_8 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_9' AS icd_code, line_icd9_dgns_cd_9 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_10' AS icd_code, line_icd9_dgns_cd_10 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_11' AS icd_code, line_icd9_dgns_cd_11 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_12' AS icd_code, line_icd9_dgns_cd_12 AS code_value FROM carrier_claims
+    UNION ALL
+    SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_13' AS icd_code, line_icd9_dgns_cd_13 AS code_value FROM carrier_claims
+)
+SELECT * FROM carrier_icd_codes
+WHERE
+LENGTH(code_value) > 5 OR LENGTH(code_value) < 3 OR code_value ~ '[^a-zA-Z0-9]';
+
+
+-- there are 18 incorrect icd codes, set to null
+-- in future can think about sending incorrect codes to a log table or setting flag 
 
 
 
