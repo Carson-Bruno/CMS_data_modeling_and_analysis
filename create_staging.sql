@@ -1,6 +1,7 @@
--- DATA IS DOUBLED, RESTART NEXT TIME
-DROP TABLE IF EXISTS carrier_claims;
-CREATE TABLE IF NOT EXISTS carrier_claims (
+
+CREATE SCHEMA IF NOT EXISTS staging; 
+DROP TABLE IF EXISTS staging.carrier_claims;
+CREATE TABLE IF NOT EXISTS staging.carrier_claims (
     desynpuf_id        CHAR(16),
     clm_id             CHAR(15),
     clm_from_dt        DATE,
@@ -155,117 +156,26 @@ CREATE TABLE IF NOT EXISTS carrier_claims (
     line_icd9_dgns_cd_12  VARCHAR(5),
     line_icd9_dgns_cd_13  VARCHAR(5)
 );
-DROP TABLE IF EXISTS beneficiaries_08;
--- create seperate table for each beneficary year since in different files
--- only for the purpose of this analysis
--- in a business context a year field could be made with python beforehand
-CREATE TABLE IF NOT EXISTS beneficiaries_08(
-    desynpuf_id CHAR(16),
-    bene_birth_dt DATE,
-    bene_death_dt DATE,
-    bene_sex_ident_cd SMALLINT,
-    bene_race_cd SMALLINT,
-    bene_esrd_ind CHAR(1),
-    sp_state_code SMALLINT,
-    bene_county_cd VARCHAR(3),
-    bene_hi_cvrage_tot_mons SMALLINT,
-    bene_smi_cvrage_tot_mons SMALLINT,
-    bene_hmo_cvrage_tot_mons SMALLINT,
-    plan_cvrg_mos_num SMALLINT,
-    sp_alzhdmta SMALLINT,
-    sp_chf SMALLINT,
-    sp_chrnkidn SMALLINT,
-    sp_cncr SMALLINT,
-    sp_copd SMALLINT,
-    sp_depressn SMALLINT,
-    sp_diabetes SMALLINT,
-    sp_ischmcht SMALLINT,
-    sp_osteoprs SMALLINT,
-    sp_ra_oa SMALLINT,
-    sp_strketia SMALLINT,
-    medreimb_ip NUMERIC(12,2),
-    benres_ip NUMERIC(12,2),
-    pp_pymt_ip NUMERIC(12,2),
-    medreimb_op NUMERIC(12,2),
-    benres_op NUMERIC(12,2),
-    pp_pymt_op NUMERIC(12,2),
-    medreimb_car NUMERIC(12,2),
-    benres_car NUMERIC(12,2),
-    pp_pymt_car NUMERIC(12,2)
-);
-DROP TABLE IF EXISTS beneficiaries_09;
-CREATE TABLE IF NOT EXISTS beneficiaries_09(
-    desynpuf_id CHAR(16),
-    bene_birth_dt DATE,
-    bene_death_dt DATE,
-    bene_sex_ident_cd SMALLINT,
-    bene_race_cd SMALLINT,
-    bene_esrd_ind CHAR(1),
-    sp_state_code SMALLINT,
-    bene_county_cd VARCHAR(3),
-    bene_hi_cvrage_tot_mons SMALLINT,
-    bene_smi_cvrage_tot_mons SMALLINT,
-    bene_hmo_cvrage_tot_mons SMALLINT,
-    plan_cvrg_mos_num SMALLINT,
-    sp_alzhdmta SMALLINT,
-    sp_chf SMALLINT,
-    sp_chrnkidn SMALLINT,
-    sp_cncr SMALLINT,
-    sp_copd SMALLINT,
-    sp_depressn SMALLINT,
-    sp_diabetes SMALLINT,
-    sp_ischmcht SMALLINT,
-    sp_osteoprs SMALLINT,
-    sp_ra_oa SMALLINT,
-    sp_strketia SMALLINT,
-    medreimb_ip NUMERIC(12,2),
-    benres_ip NUMERIC(12,2),
-    pp_pymt_ip NUMERIC(12,2),
-    medreimb_op NUMERIC(12,2),
-    benres_op NUMERIC(12,2),
-    pp_pymt_op NUMERIC(12,2),
-    medreimb_car NUMERIC(12,2),
-    benres_car NUMERIC(12,2),
-    pp_pymt_car NUMERIC(12,2)
-);
-DROP TABLE IF EXISTS beneficiaries_10;
-CREATE TABLE IF NOT EXISTS beneficiaries_10(
-    desynpuf_id CHAR(16),
-    bene_birth_dt DATE,
-    bene_death_dt DATE,
-    bene_sex_ident_cd SMALLINT,
-    bene_race_cd SMALLINT,
-    bene_esrd_ind CHAR(1),
-    sp_state_code SMALLINT,
-    bene_county_cd VARCHAR(3),
-    bene_hi_cvrage_tot_mons SMALLINT,
-    bene_smi_cvrage_tot_mons SMALLINT,
-    bene_hmo_cvrage_tot_mons SMALLINT,
-    plan_cvrg_mos_num SMALLINT,
-    sp_alzhdmta SMALLINT,
-    sp_chf SMALLINT,
-    sp_chrnkidn SMALLINT,
-    sp_cncr SMALLINT,
-    sp_copd SMALLINT,
-    sp_depressn SMALLINT,
-    sp_diabetes SMALLINT,
-    sp_ischmcht SMALLINT,
-    sp_osteoprs SMALLINT,
-    sp_ra_oa SMALLINT,
-    sp_strketia SMALLINT,
-    medreimb_ip NUMERIC(12,2),
-    benres_ip NUMERIC(12,2),
-    pp_pymt_ip NUMERIC(12,2),
-    medreimb_op NUMERIC(12,2),
-    benres_op NUMERIC(12,2),
-    pp_pymt_op NUMERIC(12,2),
-    medreimb_car NUMERIC(12,2),
-    benres_car NUMERIC(12,2),
-    pp_pymt_car NUMERIC(12,2)
+
+ALTER TABLE raw.beneficiaries_08
+ADD COLUMN IF NOT EXISTS ben_year INT DEFAULT 2008;
+ALTER TABLE raw.beneficiaries_09
+ADD COLUMN IF NOT EXISTS ben_year INT DEFAULT 2009;
+ALTER TABLE raw.beneficiaries_10
+ADD COLUMN IF NOT EXISTS ben_year INT DEFAULT 2010;
+
+DROP TABLE IF EXISTS staging.beneficiaries;
+CREATE TABLE IF NOT EXISTS staging.beneficiaries AS
+(
+SELECT * FROM raw.beneficiaries_08
+UNION ALL
+SELECT * FROM raw.beneficiaries_09
+UNION ALL 
+SELECT * FROM raw.beneficiaries_10
 );
 
-DROP TABLE IF EXISTS inpatient_claims;
-CREATE TABLE IF NOT EXISTS inpatient_claims (
+DROP TABLE IF EXISTS raw.inpatient_claims;
+CREATE TABLE IF NOT EXISTS raw.inpatient_claims (
     desynpuf_id CHAR(16),
     clm_id CHAR(15),
     segment SMALLINT,
