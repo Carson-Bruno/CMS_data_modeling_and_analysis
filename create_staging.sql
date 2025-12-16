@@ -174,8 +174,8 @@ UNION ALL
 SELECT * FROM raw.beneficiaries_10
 );
 
-DROP TABLE IF EXISTS raw.inpatient_claims;
-CREATE TABLE IF NOT EXISTS raw.inpatient_claims (
+DROP TABLE IF EXISTS staging.inpatient_claims;
+CREATE TABLE IF NOT EXISTS staging.inpatient_claims (
     desynpuf_id CHAR(16),
     clm_id CHAR(15),
     segment SMALLINT,
