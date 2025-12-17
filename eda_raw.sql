@@ -105,7 +105,18 @@ SELECT * FROM raw.inpatient_claims
 WHERE clm_id in (SELECT clm_id FROM add_segments);
 
 
-
+SELECT desynpuf_id,hcpcs_cd_1,
+CASE 
+	WHEN LINE_PRCSG_IND_CD_1 ~ '^\d$'
+		THEN '0' || LINE_PRCSG_IND_CD_1
+	WHEN LINE_PRCSG_IND_CD_1 !~ '^[A-D]|[G-V]|[X-Z]|00|1[2-8]|!|@|#|\$|\*|\(|\)|\+|<|>|%|&$'
+		THEN NULL
+	ELSE 
+		UPPER(LINE_PRCSG_IND_CD_1)
+	END AS line_cd
+FROM 
+raw.carrier_claims
+WHERE LINE_PRCSG_IND_CD_1 !~ '^[A-D]|[G-V]|[X-Z]|00|1[2-8]|!|@|#|\$|\*|\(|\)|\+|<|>|%|&$';
 
 
 
