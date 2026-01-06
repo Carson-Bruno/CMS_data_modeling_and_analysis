@@ -116,14 +116,23 @@ CASE
 	END AS line_cd
 FROM 
 raw.carrier_claims
-WHERE LINE_PRCSG_IND_CD_1 !~ '^[A-D]|[G-V]|[X-Z]|00|1[2-8]|!|@|#|\$|\*|\(|\)|\+|<|>|%|&$';
+WHERE LINE_PRCSG_IND_CD_1 ~ '^[A-D]|[G-V]|[X-Z]|00|1[2-8]|!|@|#|\$|\*|\(|\)|\+|<|>|%|&$'
+LIMIT 10;
 
 
+SELECT LINE_PRCSG_IND_CD_1 FROM raw.carrier_claims
+WHERE LINE_PRCSG_IND_CD_1 = '00'
+LIMIT 100;
 
+------check validity of hcpcs codes 
+SELECT * FROM raw.carrier_claims
+WHERE hcpcs_cd_2 !~ '^(?:[A-Za-z]\d{4}|\d{5}|\d{4}[FT])$'
+LIMIT 10;
 
-SELECT desynpuf_id,hcpcs_cd_1,LINE_PRCSG_IND_CD_1 FROM 
-raw.carrier_claims
-WHERE LINE_PRCSG_IND_CD_1='M'
+--- 
+SELECT * FROM beneficiaries
+LIMIT 20;
+---
 
 SELECT desynpuf_id,hcpcs_cd_1,LINE_PRCSG_IND_CD_1 FROM raw.carrier_claims
 WHERE desynpuf_id = '3833A3F180F698F7'
