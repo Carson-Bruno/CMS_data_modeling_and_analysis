@@ -13,7 +13,7 @@ The Centers for Medicare & Medicaid Services synthetic public use files include 
 - Outcomes of Angioplasty vs cornary artery bypass procedures
 
 ## Data Model
-For the purposes of this project, this data model focuses on containing clean data without any extra data that will slow down queries. This analysis will not focus on financila aspects of clinical events and thus any data containing this will not be included. The following is the data model that is currently being utilized, this is a work in progress that may be changed to fit analaytical needs. 
-!screen()
+For the purposes of this project, this data model focuses on containing clean data without any extra data that will slow down queries. This analysis will not focus on financila aspects of clinical events and thus any data containing this will not be included. The following is the data model that is currently being utilized, this is a work in progress that may be changed to fit analytical needs. 
+<img src="https://github.com/Carson-Bruno/CMS_data_modeling_and_analysis/blob/main/rough_data_model.png" width="600" />
 
 
