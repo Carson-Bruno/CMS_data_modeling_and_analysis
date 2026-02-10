@@ -32,7 +32,8 @@ benres_op,
 pp_pymt_op,
 medreimb_car,
 benres_car,
-pp_pymt_car
+pp_pymt_car,
+ben_year
 )
 SELECT 
 desynpuf_id,
@@ -129,7 +130,8 @@ benres_op,
 pp_pymt_op,
 medreimb_car,
 benres_car,
-pp_pymt_car
+pp_pymt_car,
+TO_DATE(ben_year::text, 'YYYY') AS ben_year
 
 FROM raw.beneficiaries;
 

@@ -270,7 +270,8 @@ CREATE TABLE IF NOT EXISTS standardized.beneficiaries(
     pp_pymt_op NUMERIC(12,2),
     medreimb_car NUMERIC(12,2),
     benres_car NUMERIC(12,2),
-    pp_pymt_car NUMERIC(12,2)
+    pp_pymt_car NUMERIC(12,2),
+	ben_year DATE
 );
 
 
