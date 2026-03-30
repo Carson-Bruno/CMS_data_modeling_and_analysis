@@ -83,9 +83,10 @@ WITH carrier_icd_codes AS(
     UNION ALL
     SELECT desynpuf_id, clm_id, 'line_icd9_dgns_cd_13' AS icd_code, line_icd9_dgns_cd_13 AS code_value FROM raw.carrier_claims
 )
-SELECT * FROM carrier_icd_codes
-WHERE
-LENGTH(code_value) > 5 OR LENGTH(code_value) < 3 OR code_value ~ '[^a-zA-Z0-9]';
+SELECT * FROM carrier_icd_codes;
+-- SELECT * FROM carrier_icd_codes
+-- WHERE
+-- LENGTH(code_value) > 5 OR LENGTH(code_value) < 3 OR code_value ~ '[^a-zA-Z0-9]';
 
 
 
