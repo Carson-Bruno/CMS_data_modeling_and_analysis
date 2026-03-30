@@ -1,3 +1,11 @@
+/*
+============================================================
+Purpose:
+	Transforms and cleans inpatient claims data. 
+	Checks icd9 codes for validity. HCPCS codes are likely
+	not used in these claims so are not modified. 
+============================================================
+*/
 TRUNCATE TABLE standardized.inpatient_claims;
 INSERT INTO standardized.inpatient_claims(
 desynpuf_id,

@@ -1,3 +1,11 @@
+/*
+==============================================================
+Purpose:
+	Transforms and cleans beneficiary data. 
+==============================================================
+*/
+
+
 TRUNCATE TABLE standardized.beneficiaries;
 INSERT INTO standardized.beneficiaries
 (

@@ -1,3 +1,12 @@
+/*
+============================================================
+Purpose:
+	Transforms and cleans carrier claims data. 
+	Checks icd9 and HCPCS codes for validity.
+============================================================
+*/
+
+
 TRUNCATE TABLE standardized.carrier_claims;
 INSERT INTO standardized.carrier_claims
 (desynpuf_id,

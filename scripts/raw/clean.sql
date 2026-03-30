@@ -1,3 +1,12 @@
+/*
+=============================================================================
+FIX THIS FILE: currently alters raw beneficiaries and creates one table with all years
+of beneficiaries, then checks for duplicates and consistent counts
+TO DO: should keep raw files as is or merge through a Python script beforehand
+Save testing for a separate file. 
+=============================================================================
+*/
+
 -- year column for beneficiaries
 ALTER TABLE raw.beneficiaries_08
 ADD COLUMN IF NOT EXISTS ben_year INT DEFAULT 2008;

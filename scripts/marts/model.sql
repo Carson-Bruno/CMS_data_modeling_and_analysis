@@ -1,4 +1,10 @@
-
+/*
+============================================================
+DO NOT USE:
+	Most likely will not use this file, need to look into
+	specifications of using views vs tables for these marts
+============================================================
+*/
 
 CREATE SCHEMA IF NOT EXISTS analytics; 
 DROP TABLE IF EXISTS analytics.Clinical_events;

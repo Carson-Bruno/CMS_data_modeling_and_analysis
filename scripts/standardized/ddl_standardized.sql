@@ -1,3 +1,9 @@
+/*
+==========================================================
+Purpose: 
+	Creates tables for transformed claims data
+==========================================================
+*/
 
 CREATE SCHEMA IF NOT EXISTS standardized; 
 

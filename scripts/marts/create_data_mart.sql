@@ -1,5 +1,16 @@
-SELECT * FROM standardized.outpatient_claims
-LIMIT 100;
+/*
+============================================================
+IN PROGRESS:
+	Created diagnosis and procedure dimension views by 
+	unpivoting codes from all claims tables
+TODO: 
+	Should separate fact and dimension tables into separate 
+	files 
+============================================================
+*/
+
+-- SELECT * FROM standardized.outpatient_claims
+-- LIMIT 100;
 
 ------------------------------------------
 -----DIAGNOSIS VIEW------------------------

@@ -1,4 +1,9 @@
-
+/*
+==========================================================
+Purpose:
+	Creates tables from raw data, no transformations applied
+==========================================================
+*/
 CREATE SCHEMA IF NOT EXISTS raw; 
 
 DROP TABLE IF EXISTS raw.outpatient_claims;

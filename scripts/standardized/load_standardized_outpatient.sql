@@ -1,3 +1,10 @@
+/*
+============================================================
+Purpose:
+	Transforms and cleans outpatient claims data. 
+	Checks icd9 and HCPCS codes for validity.
+============================================================
+*/
 TRUNCATE TABLE standardized.outpatient_claims;
 INSERT INTO standardized.outpatient_claims(
 desynpuf_id,
